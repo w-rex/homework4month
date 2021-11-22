@@ -21,5 +21,7 @@ from main import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/movies/', views.movie_list_view),
+    path('api/v1/movies/review/', views.review),
+    path('api/v1/movies/genres/', views.genres_review),
     path('api/v1/movies/<int:id>/', views.movie_item),
 ]

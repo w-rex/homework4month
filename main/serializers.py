@@ -9,11 +9,10 @@ class CinemaSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class MovieSerializers(serializers.ModelSerializer):
+class GenresSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Movie
+        model = Genres
         fields = '__all__'
-
 
 
 class ReviewSerializers(serializers.ModelSerializer):
@@ -22,12 +21,32 @@ class ReviewSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class MovieSerializers(serializers.ModelSerializer):
+    cinema = CinemaSerializers()
+    genres = GenresSerializers(many=True)
+    reviews = ReviewSerializers(many=True)
 
-
-class Genres(serializers.ModelSerializer):
     class Meta:
-        model = Genres
-        fields = '__all__'
+        model = Movie
+        fields = 'title description cinema genres reviews'.split()
+
+
+class ReviewFilmSerializers(serializers.ModelSerializer):
+    reviews = ReviewSerializers(many=True)
+
+    class Meta:
+        model = Movie
+        fields = 'reviews'.split()
+
+
+class GenresReviewSerializers(serializers.ModelSerializer):
+    genres = GenresSerializers(many=True)
+
+    class Meta:
+        model = Movie
+        fields = 'genres'.split()
+
+
 
 
 

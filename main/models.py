@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-# Create your models here.
+
 
 class Cinema(models.Model):
     name = models.CharField(max_length=100)
@@ -15,6 +15,7 @@ class Genres(models.Model):
     def __str__(self):
         return self.name
 
+
 class Movie(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
@@ -27,6 +28,4 @@ class Movie(models.Model):
 
 class Review(models.Model):
     text = models.TextField()
-    movie = models.ForeignKey(Movie, null=True, related_name='reviews',  blank=True, on_delete=models.CASCADE)
-
-
+    reviews = models.ForeignKey(Movie, null=True, related_name='reviews',  blank=True, on_delete=models.CASCADE)
