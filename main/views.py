@@ -25,7 +25,7 @@ def movie_item(request, id):
 def review(request):
     movies = Movie.objects.all()
     data = ReviewFilmSerializers(movies, many=True).data
-    return Response(data=data)\
+    return Response(data=data)
 
 
 @api_view(['GET'])
@@ -33,6 +33,20 @@ def genres_review(request):
     movies = Movie.objects.all()
     data = GenresReviewSerializers(movies, many=True).data
     return Response(data=data)
+
+
+@api_view(['PUT', 'DELETE'])
+def cinema_detail_update_delete_view(request, id):
+    cinema = Cinema.objects.get(id=id)
+    if request.method == 'PUT':
+        cinema.name = request.data.get('name', '')
+        cinema.save()
+        return Response(data={
+            'message': 'Tag Updated!',
+            'data': CinemaSerializers(cinema).data})
+    elif request.method == 'DELETE':
+        cinema.delete()
+        return Response(data={'message': 'Tag deleted!'})
 
 
 
