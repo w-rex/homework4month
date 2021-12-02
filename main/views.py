@@ -49,5 +49,24 @@ def cinema_detail_update_delete_view(request, id):
         return Response(data={'message': 'Tag deleted!'})
 
 
+@api_view(["POST", "GET"])
+def cinema_creat_view(request):
+    if request.method == "POST":
+        name = request.data.get('name')
+        serializer = CinemaValidatedSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(data={"errors": serializer.errors})
+        cinema = Cinema.objects.create(name=name)
+        return Response(data={"message": "Cinema created",
+                              "data": CinemaSerializers(cinema).data})
+
+    else:
+        cinemas = Cinema.objects.all()
+        data = CinemaSerializers(cinemas, many=True).data
+        return Response(data=data)
+
+
+
+
 
 

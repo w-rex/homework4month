@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from main.models import *
 
@@ -47,6 +48,11 @@ class GenresReviewSerializers(serializers.ModelSerializer):
         fields = 'genres'.split()
 
 
+class CinemaValidatedSerializer(serializers.Serializer):
+    name = serializers.CharField(min_length=3, max_length=20)
 
-
+    def validate_name(self, name):
+        if Cinema.objects.filter(name=name).count() > 0:
+            raise ValidationError("This name is exist")
+        return name
 
