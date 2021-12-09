@@ -56,3 +56,18 @@ class CinemaValidatedSerializer(serializers.Serializer):
             raise ValidationError("This name is exist")
         return name
 
+
+class UserCreateSerializer(serializers.Serializer):
+    password = serializers.CharField(max_length=100, min_length=3)
+    username = serializers.CharField(max_length=100, min_length=1)
+
+    def validate_username(self, username):
+        if User.objects.filter(username=username):
+            raise ValidationError("This username exits")
+        return username
+
+
+class UserValidateSerializer(serializers.Serializer):
+    password = serializers.CharField(max_length=100, min_length=3)
+    username = serializers.CharField(max_length=100, min_length=1)
+
